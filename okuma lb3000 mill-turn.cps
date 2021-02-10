@@ -1,5 +1,4 @@
 /**
-  SHS testig comment change here
   Copyright (C) 2012-2020 by Autodesk, Inc.
   All rights reserved.
 
@@ -60,15 +59,15 @@ properties = {
   optionalStop: true, // optional stop
   separateWordsWithSpace: true, // specifies that the words should be separated with a white space
   useRadius: false, // specifies that arcs should be output using the radius (R word) instead of the I, J, and K words.
-  maximumSpindleSpeed: 2500, // specifies the maximum spindle speed
+  maximumSpindleSpeed: 6000, // specifies the maximum spindle speed
   useParametricFeed: false, // specifies that feed should be output using Q values
   showNotes: false, // specifies that operation notes should be output.
-  useCycles: false, // specifies that drilling cycles should be used.
+  useCycles: true, // specifies that drilling cycles should be used.
   gotPartCatcher: true, // specifies if the machine has a part catcher
   autoEject: false, // specifies if the part should be automatically ejected at end of program
   useTailStock: false, // specifies to use the tailstock or not
   useYAxisForDrilling: false, // uses the Y-axis instead of C-axis for axial drilling
-  gotChipConveyor: false, // specifies to use a chip conveyor Y/N
+  gotChipConveyor: true, // specifies to use a chip conveyor Y/N
   homePositionX: 0, // home position for X-axis
   homePositionY: 0, // home position for Y-axis
   homePositionZ: 0, // home position for Z-axis
@@ -740,7 +739,7 @@ function onOpen() {
     }
   }
 
-  writeBlock(gformat.format(140), gAbsIncModal.format(90));
+  writeBlock(gAbsIncModal.format(90), gCycleModal.format(80));
   if (properties.useM960) {
     writeBlock(mFormat.format(960));
   }
@@ -3178,12 +3177,12 @@ function onCommand(command) {
   case COMMAND_UNLOCK_MULTI_AXIS:
     writeBlock(cAxisBrakeModal.format(getCode("UNLOCK_MULTI_AXIS", getSpindle(true))));
     break;
-  /*case COMMAND_START_CHIP_TRANSPORT:
+  case COMMAND_START_CHIP_TRANSPORT:
     writeBlock(mFormat.format(244));
     break;
   case COMMAND_STOP_CHIP_TRANSPORT:
     writeBlock(mFormat.format(243));
-    break;*/
+    break;
   case COMMAND_OPEN_DOOR:
     if (gotDoorControl) {
       writeBlock(mFormat.format(208)); // optional
